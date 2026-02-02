@@ -1,0 +1,1076 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>五福元素 (ELEMENT) - 终极炼金术</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+        }
+        
+        :root {
+            --primary-color: #ff6b35;
+            --secondary-color: #1a1a2e;
+            --accent-color: #0f4c75;
+            --light-color: #f8f9fa;
+            --dark-color: #16213e;
+            --success-color: #4CAF50;
+            --warning-color: #ff9800;
+            --danger-color: #f44336;
+            --border-radius: 10px;
+            --box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* 头部样式 */
+        header {
+            background: linear-gradient(135deg, var(--secondary-color) 0%, var(--dark-color) 100%);
+            color: white;
+            padding: 20px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .logo-icon {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+        }
+        
+        .logo h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+        
+        .logo span {
+            color: var(--primary-color);
+        }
+        
+        .lang-switcher {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .lang-btn {
+            padding: 8px 16px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 600;
+        }
+        
+        .lang-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        .lang-btn.active {
+            background: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+        
+        .lang-btn.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            background: rgba(255, 255, 255, 0.05);
+        }
+        
+        .lang-btn.disabled:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+        
+        /* 英雄区域 */
+        .hero {
+            padding: 80px 0 60px;
+            background: linear-gradient(rgba(26, 26, 46, 0.9), rgba(26, 26, 46, 0.9)), 
+                        url('https://images.unsplash.com/photo-1620321023374-d1a68fbc720d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            text-align: center;
+        }
+        
+        .hero h2 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto 30px;
+            opacity: 0.9;
+        }
+        
+        .element-icons {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 40px;
+            flex-wrap: wrap;
+        }
+        
+        .element-icon {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            font-size: 2.5rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            transition: var(--transition);
+        }
+        
+        .element-icon:hover {
+            transform: translateY(-10px);
+            border-color: var(--primary-color);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        .element-icon span {
+            font-size: 0.9rem;
+            margin-top: 5px;
+            font-weight: 600;
+        }
+        
+        /* 主要内容区域 */
+        section {
+            padding: 80px 0;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 50px;
+            position: relative;
+        }
+        
+        .section-title h2 {
+            font-size: 2.5rem;
+            color: var(--secondary-color);
+            display: inline-block;
+            padding-bottom: 15px;
+        }
+        
+        .section-title h2:after {
+            content: '';
+            position: absolute;
+            width: 100px;
+            height: 4px;
+            background: var(--primary-color);
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 2px;
+        }
+        
+        /* 卡片样式 */
+        .card {
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            padding: 30px;
+            margin-bottom: 30px;
+            transition: var(--transition);
+            border-left: 5px solid var(--primary-color);
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: var(--secondary-color);
+        }
+        
+        .card h3 i {
+            margin-right: 10px;
+            color: var(--primary-color);
+        }
+        
+        .highlight {
+            background-color: rgba(255, 107, 53, 0.1);
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 4px solid var(--primary-color);
+        }
+        
+        /* 表格样式 */
+        .table-container {
+            overflow-x: auto;
+            margin: 30px 0;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+        }
+        
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+        
+        th {
+            background-color: var(--secondary-color);
+            color: white;
+            font-weight: 600;
+        }
+        
+        tr:hover {
+            background-color: #f9f9f9;
+        }
+        
+        /* 规则部分 */
+        .rules-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .rule-card {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 25px;
+            box-shadow: var(--box-shadow);
+            transition: var(--transition);
+        }
+        
+        .rule-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .rule-card h4 {
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            color: var(--secondary-color);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        /* 时间线样式 */
+        .timeline {
+            position: relative;
+            max-width: 900px;
+            margin: 50px auto;
+        }
+        
+        .timeline:before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: var(--primary-color);
+            transform: translateX(-50%);
+        }
+        
+        .timeline-item {
+            position: relative;
+            margin-bottom: 50px;
+            width: 50%;
+            padding-right: 40px;
+        }
+        
+        .timeline-item:nth-child(even) {
+            margin-left: 50%;
+            padding-right: 0;
+            padding-left: 40px;
+        }
+        
+        .timeline-content {
+            background: white;
+            padding: 25px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            position: relative;
+        }
+        
+        .timeline-content:before {
+            content: '';
+            position: absolute;
+            top: 20px;
+            right: -10px;
+            width: 0;
+            height: 0;
+            border-left: 10px solid white;
+            border-top: 10px solid transparent;
+            border-bottom: 10px solid transparent;
+        }
+        
+        .timeline-item:nth-child(even) .timeline-content:before {
+            left: -10px;
+            right: auto;
+            border-left: 0;
+            border-right: 10px solid white;
+        }
+        
+        .timeline-content h4 {
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+        
+        .timeline-content .phase {
+            display: inline-block;
+            background: var(--primary-color);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        
+        /* 页脚样式 */
+        footer {
+            background: var(--secondary-color);
+            color: white;
+            padding: 60px 0 30px;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+        
+        .footer-links h4 {
+            margin-bottom: 20px;
+            color: var(--primary-color);
+            font-size: 1.2rem;
+        }
+        
+        .footer-links ul {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-links a {
+            color: #ddd;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+        
+        .footer-links a:hover {
+            color: var(--primary-color);
+            padding-left: 5px;
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #aaa;
+            font-size: 0.9rem;
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .hero h2 {
+                font-size: 2.2rem;
+            }
+            
+            .element-icons {
+                gap: 15px;
+            }
+            
+            .element-icon {
+                width: 80px;
+                height: 80px;
+                font-size: 2rem;
+            }
+            
+            .section-title h2 {
+                font-size: 2rem;
+            }
+            
+            .timeline:before {
+                left: 30px;
+            }
+            
+            .timeline-item {
+                width: 100%;
+                padding-left: 70px;
+                padding-right: 0;
+            }
+            
+            .timeline-item:nth-child(even) {
+                margin-left: 0;
+                padding-left: 70px;
+            }
+            
+            .timeline-content:before {
+                left: -10px;
+                right: auto;
+                border-left: 0;
+                border-right: 10px solid white;
+            }
+            
+            .timeline-item:nth-child(even) .timeline-content:before {
+                left: -10px;
+            }
+        }
+        
+        .lang-content {
+            display: none;
+        }
+        
+        .lang-content.active {
+            display: block;
+        }
+        
+        /* 图像占位符 */
+        .image-placeholder {
+            width: 100%;
+            height: 300px;
+            background: linear-gradient(45deg, #f5f7fa, #e4e8f0);
+            border-radius: var(--border-radius);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: #888;
+            margin: 20px 0;
+        }
+        
+        .image-placeholder i {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            opacity: 0.5;
+        }
+        
+        /* Doc内容样式 */
+        .doc-content {
+            font-size: 1rem;
+            line-height: 1.8;
+        }
+        
+        .doc-content p {
+            margin-bottom: 1rem;
+        }
+        
+        .doc-content ul, .doc-content ol {
+            margin-bottom: 1rem;
+            padding-left: 1.5rem;
+        }
+        
+        .doc-content li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .doc-content h3 {
+            margin-top: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--secondary-color);
+        }
+        
+        .doc-content img {
+            max-width: 100%;
+            height: auto;
+            margin: 1rem 0;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+        }
+        
+        .doc-content a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 600;
+        }
+        
+        .doc-content a:hover {
+            text-decoration: underline;
+        }
+        
+        .doc-content .highlight-box {
+            background-color: rgba(255, 107, 53, 0.1);
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 4px solid var(--primary-color);
+        }
+        
+        .doc-content .info-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+        }
+        
+        .doc-content .info-table th, 
+        .doc-content .info-table td {
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+        
+        .doc-content .info-table th {
+            background-color: var(--secondary-color);
+            color: white;
+            font-weight: 600;
+        }
+        
+        .doc-content .info-table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        
+        /* 项目规则部分 */
+        .rules-section {
+            background-color: #f8f9fa;
+            border-radius: var(--border-radius);
+            padding: 30px;
+            margin: 30px 0;
+        }
+        
+        .rule-item {
+            margin-bottom: 20px;
+            padding-left: 20px;
+            border-left: 3px solid var(--primary-color);
+        }
+        
+        .rule-item h4 {
+            color: var(--secondary-color);
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <!-- 头部 -->
+    <header>
+        <div class="container header-content">
+            <div class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-gem"></i>
+                </div>
+                <h1>五福<span>元素</span> (ELEMENT)</h1>
+            </div>
+            <div class="lang-switcher">
+                <button class="lang-btn active" data-lang="zh">中文</button>
+                <button class="lang-btn disabled" data-lang="en" disabled>En</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- 英雄区域 -->
+    <section class="hero">
+        <div class="container">
+            <div class="lang-content active" id="hero-zh">
+                <h2>🌊🔥 ELEMENT：终极炼金术</h2>
+                <p>忘掉那些无聊的代币吧。我们不是简单地发个币，而是在打造一个低风险、极致通缩的"战利品箱"，全部由纯粹的炼金术驱动。这就是 $ELEMENT 系统——金元素、木元素、水元素、火元素、土元素——五个代币，一个超级巨额奖池。</p>
+            </div>
+            
+            <div class="element-icons">
+                <div class="element-icon" style="color: #FFD700;">
+                    <i class="fas fa-crown"></i>
+                    <span>金元素</span>
+                </div>
+                <div class="element-icon" style="color: #228B22;">
+                    <i class="fas fa-tree"></i>
+                    <span>木元素</span>
+                </div>
+                <div class="element-icon" style="color: #1E90FF;">
+                    <i class="fas fa-tint"></i>
+                    <span>水元素</span>
+                </div>
+                <div class="element-icon" style="color: #FF4500;">
+                    <i class="fas fa-fire"></i>
+                    <span>火元素</span>
+                </div>
+                <div class="element-icon" style="color: #8B4513;">
+                    <i class="fas fa-mountain"></i>
+                    <span>土元素</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 项目概述 -->
+    <section id="overview">
+        <div class="container">
+            <div class="section-title">
+                <h2><i class="fas fa-info-circle"></i> 项目概述</h2>
+            </div>
+            
+            <div class="lang-content active" id="overview-zh">
+                <div class="card">
+                    <h3><i class="fas fa-gem"></i> 什么是五福元素？</h3>
+                    <p><strong>五福元素 (ELEMENT)</strong> 是一个开创性的 meme 加密货币项目，以中国传统五行（金、木、水、火、土）为核心概念。与传统 meme 币不同，ELEMENT 构建了一个高度结构化、游戏化的生态系统，旨在实现可持续参与、社区奖励，以及对其组成代币的持续向上价格压力。</p>
+                    
+                    <div class="highlight">
+                        <p><strong>核心创新：</strong> ELEMENT 生态系统由在 flag.sh 平台上发行的五种独立元素代币组成。其核心创新在于独特的代币经济模型：交易税主要流入社区奖池，并通过强制机制持续买入并销毁价格最低的元素代币。这一设计确保长期稀缺性、持续的价格地板抬升，并为活跃参与者提供可观的每日与每周奖励。</p>
+                    </div>
+                    
+                    <p>ELEMENT 致力于将文化共鸣、透明的代币经济学与引人入胜的游戏化机制相结合，打造一个充满活力、自我持续的去中心化社区。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 项目概述图片 -->
+    <div style="text-align: center; margin-bottom: 40px;">
+        <img src="/static/element.png" alt="项目概述" style="max-width: 100%; height: auto; border-radius: var(--border-radius); box-shadow: var(--box-shadow);">
+    </div>
+
+    <!-- 项目规则 -->
+    <section id="rules" style="background-color: #f0f4f8;">
+        <div class="container">
+            <div class="section-title">
+                <h2><i class="fas fa-book"></i> 项目规则</h2>
+            </div>
+            
+            <div class="lang-content active" id="rules-zh">
+                <div class="card doc-content">
+                    <h3><i class="fas fa-cogs"></i> 五福元素 (ELEMENT) 项目规则</h3>
+                    
+                    <div class="rules-section">
+                        <div class="rule-item">
+                            <h4>1. 项目启动规则</h4>
+                            <ul>
+                                <li>基于 flag.sh 平台发行5个币：金，木，水，火，土！</li>
+                                <li>为了游戏长期能进行下去，税收设置为买卖为5%。</li>
+                                <li>其中税金5%销毁，剩下95%中：
+                                    <ul>
+                                        <li>10%用来开发和建设</li>
+                                        <li>5%用来运营</li>
+                                        <li>85%做奖池全部给用户奖励</li>
+                                    </ul>
+                                </li>
+                                <li>开始只发二个代币，代币从金元素开始！等金元素稳定在20万U市值后，社区投票是否上第二个元素，上币排列顺序为：火，水，木，土！</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="rule-item">
+                            <h4>2. 抽奖参与规则</h4>
+                            <ul>
+                                <li>收集至少2个元素（每个元素最少100万枚）可以参与奖金池抽奖。</li>
+                                <li>奖金池目前主要来自税金+捐赠。</li>
+                                <li>周1~周5普通奖，周六抽特别奖，周日休息不开奖！</li>
+                            </ul>
+                            
+                            <div class="highlight-box">
+                                <h5>初期币价格低时的抽奖规则：</h5>
+                                <p><strong>A: 普通奖每天5人</strong>，获奖金额是价格最高元素的100万枚价值的n倍(n是持有元素代币的种类)，如果持有2个元素就是2倍，持有5个元素最高是5倍。其中中奖的用户20%奖励金税，dev会扣掉用来购买当时价格最低元素，然后销毁该元素（意味着最低价元素就算没人购买，也会每天涨价和销毁）。</p>
+                                
+                                <p><strong>B: 特别奖一周（周六）3人</strong>，获奖金额看税金池子的资金量定，尽量做到500USDT每次以上奖励，如果税金够多，那就1000~2000的奖励。如果持有3个元素就是多给30%，如果持有4个元素就是多给40%，持有5个元素最高是50%。其中中奖的用户20%奖励金税，dev会扣掉用来购买当时价格最低元素，然后销毁该元素（意味着最低价元素就算没人购买，也会每天涨价和销毁）。</p>
+                            </div>
+                        </div>
+                        
+                        <div class="rule-item">
+                            <h4>3. 合作伙伴整合</h4>
+                            <p>合作方可以通过捐赠奖金池的方式合作，如果购买一定数量合作方的代币(合作方定)，分配时候可以额外获得该次合作方全部奖金。</p>
+                        </div>
+                        
+                        <div class="rule-item">
+                            <h4>4. 治理与演进</h4>
+                            <p>本规则在项目初步开始时，后续奖金池大了，需要修改进行DAO投票。</p>
+                        </div>
+                        
+                        <div class="rule-item">
+                            <h4>5. 重要链接</h4>
+                            <ul>
+                                <li><strong>奖金随机分配网站：</strong> <a href="https://web3.guildengine.xyz/" target="_blank">https://web3.guildengine.xyz/</a></li>
+                                <li><strong>随机中奖方案算法：</strong> <a href="https://x.com/web3catbuilder/status/2016831465624109099?s=20" target="_blank">查看随机算法详情</a></li>
+                                <li><strong>奖金分发平台：</strong> <a href="https://bsc.ciaotool.io/" target="_blank">https://bsc.ciaotool.io/</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 代币经济学 -->
+    <section id="tokenomics">
+        <div class="container">
+            <div class="section-title">
+                <h2><i class="fas fa-chart-pie"></i> 代币经济学</h2>
+            </div>
+            
+            <div class="lang-content active" id="tokenomics-zh">
+                <div class="card doc-content">
+                    <h3><i class="fas fa-coins"></i> 税收结构与分配</h3>
+                    <p>所有五种元素代币的买入和卖出交易均收取固定、对称的 <strong>5%</strong> 税费。税费在交易发生时立即分配：</p>
+                    
+                    <div class="table-container">
+                        <table class="info-table">
+                            <thead>
+                                <tr>
+                                    <th>分配项目</th>
+                                    <th>百分比</th>
+                                    <th>用途</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>税销毁</strong></td>
+                                    <td>5%</td>
+                                    <td>自动销毁（从流通中移除）</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>开发与建设</strong></td>
+                                    <td>10% (剩余95%的)</td>
+                                    <td>平台维护、安全审计和未来功能开发的资金</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>运营</strong></td>
+                                    <td>5% (剩余95%的)</td>
+                                    <td>市场营销、社区管理和运营费用</td>
+                                </tr>
+                                <tr style="background-color: rgba(255, 107, 53, 0.1);">
+                                    <td><strong>社区奖池</strong></td>
+                                    <td><strong>85% (剩余95%的)</strong></td>
+                                    <td>完全用于用户奖励和抽奖支付</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div class="highlight-box">
+                        <p><strong>注：</strong> 该结构确保总交易税的约 <strong>80.75%</strong>（5% × 95% × 85% ≈ 4.0375%）直接进入社区奖池。</p>
+                    </div>
+                    
+                    <h3><i class="fas fa-gift"></i> 游戏化奖池机制</h3>
+                    <p>参与奖池需持有至少两种不同元素代币，每种代币最低持有 100万枚。奖池资金来源于交易税分配以及外部合作/捐赠。</p>
+                    
+                    <div class="rules-grid">
+                        <div class="rule-card">
+                            <h4><i class="fas fa-calendar-day"></i> 每日普通奖（周一至周五）</h4>
+                            <ul>
+                                <li><strong>中奖人数：</strong> 每天 5 名</li>
+                                <li><strong>基础奖励：</strong> 当前价格最高元素代币的 100万枚市值 × n倍</li>
+                                <li><strong>加成倍数：</strong></li>
+                                <li>持有 2 种元素：2倍基础价值</li>
+                                <li>持有 3 种元素：3倍基础价值</li>
+                                <li>持有 4 种元素：3倍基础价值</li>
+                                <li>持有 5 种元素：5倍基础价值（最高）</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="rule-card">
+                            <h4><i class="fas fa-calendar-week"></i> 每周特别奖（周六）</h4>
+                            <ul>
+                                <li><strong>中奖人数：</strong> 每周 3 名</li>
+                                <li><strong>奖励目标：</strong> 每人最低 500 USDT，根据奖池规模可提升至 1000-2000 USDT</li>
+                                <li><strong>加成倍数：</strong></li>
+                                <li>持有 3 种元素：+30% 奖金</li>
+                                <li>持有 4 种元素：+40% 奖金</li>
+                                <li>持有 5 种元素：+50% 奖金（最高）</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="rule-card">
+                            <h4><i class="fas fa-fire-alt"></i> 强制通缩机制（20%奖励税）</h4>
+                            <p>普通奖与特别奖的中奖金额均收取 <strong>20%</strong> 作为"奖励税"</p>
+                            <p>开发团队使用该资金立即在市场上买入<strong>价格最低的元素代币</strong>并销毁。</p>
+                            <p>这意味着价格最低的元素代币每天都会收到强制买入压力和通缩供应减少，为所有五种代币提供永久的价格地板支撑。</p>
+                        </div>
+                    </div>
+                    
+                    <div class="highlight-box">
+                        <h4><i class="fas fa-handshake"></i> 合作伙伴整合</h4>
+                        <p>合作伙伴可直接向奖池捐赠资金或资产。若参与者持有合作伙伴指定数量的原生代币（数量由合作伙伴定义），则可在对应抽奖中额外获得该合作伙伴本次捐赠资金的<strong>全部金额</strong>作为奖励，为合作伙伴代币在ELEMENT生态内创造直接效用和需求。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+                <!-- 添加项目叙述图片 -->
+            <div style="text-align: center; margin-bottom: 40px;">
+                <img src="/static/element2.png" alt="项目叙述" style="max-width: 100%; height: auto; border-radius: var(--border-radius); box-shadow: var(--box-shadow);">
+            </div>
+
+    <!-- 项目叙述与白皮书 -->
+    <section id="whitepaper" style="background-color: #f0f4f8;">
+        <div class="container">
+            <div class="section-title">
+                <h2><i class="fas fa-file-alt"></i> 项目叙述与白皮书</h2>
+            </div>
+
+            <div class="lang-content active" id="whitepaper-zh">
+                <div class="card doc-content">
+                    <h3><i class="fas fa-scroll"></i> 项目叙述</h3>
+
+                    <div class="highlight-box">
+                        <h4>🌊🔥 ELEMENT：终极炼金术</h4>
+                        <p>ELEMENT (五福元素) 忘掉那些无聊的代币吧。我们不是简单地发个币，而是在打造一个高风险、极致通缩的"战利品箱"，全部由纯粹的炼金术驱动。这就是 $ELEMENT 系统——金元素、木元素、水元素、火元素、土元素——五个代币，一个超级巨额奖池。</p>
+                    </div>
+                    
+                    <h4>氛围检验：</h4>
+                    <p>我们把古老的五行概念注入最大剂量的加密堕落玩法。规则超级简单：集齐全套，赢大奖。我们的 5% 税收可不是普通的费用，而是火箭燃料——每笔交易的 85% 直接冲进社区奖池。这不是涓涓细流，而是奖励的洪流，只等着真正的"元素大师"来领取。</p>
+                    
+                    <h4>为什么这是你必须知道的 Alpha：</h4>
+                    <p>这不只是持有，而是狩猎。只需收集任意两种元素（每种至少 100 万枚），就能解锁每日抽奖网站。每天我们都在砸出巨额奖励（持有全部五种元素可享最高 5 倍加成！）。</p>
+                    
+                    <p><strong>最爽的是：</strong> 每次有人中奖，税收机制就会自动买入并销毁当前价格最低的元素，保证持续的地板拉升。庄家永远赢，但社区就是庄家。</p>
+                    
+                    <h4>FOMO 真实存在：</h4>
+                    <p>别再去种几分钱的草了。开始掌握五行元素吧。凭借每天保证销毁、海量税收驱动的奖励，以及专为真正收藏家设计的系统，$ELEMENT 是终极高风险高回报玩法。</p>
+                    
+                    <div class="highlight-box">
+                        <p><strong>DYOR？不，DYE（Do Your Elements，去集齐你的元素）。</strong> 头奖就在那里等着。你准备好成为元素大师了吗？</p>
+                        <p>LFG。收集。赢取。销毁。循环。</p>
+                    </div>
+
+
+                    <h3><i class="fas fa-book-open"></i> 项目白皮书</h3>
+                    
+                    <h4>1. 执行摘要</h4>
+                    <p>五福元素 (ELEMENT) 是一个开创性的 meme 加密货币项目，以中国传统五行（金、木、水、火、土）为核心概念。与传统 meme 币不同，ELEMENT 构建了一个高度结构化、游戏化的生态系统，旨在实现可持续参与、社区奖励，以及对其组成代币的持续向上价格压力。</p>
+                    
+                    <p>ELEMENT 生态系统由在 flag.sh 平台上发行的五种独立元素代币组成。其核心创新在于独特的代币经济模型：交易税主要流入社区奖池，并通过强制机制持续买入并销毁价格最低的元素代币。这一设计确保长期稀缺性、持续的价格地板抬升，并为活跃参与者提供可观的每日与每周奖励。</p>
+                    
+                    <p>ELEMENT 致力于将文化共鸣、透明的代币经济学与引人入胜的游戏化机制相结合，打造一个充满活力、自我持续的去中心化社区。</p>
+                    
+                    <h4>2. 愿景与使命</h4>
+                    <p><strong>愿景：</strong> 将 ELEMENT 打造为 meme 币领域首屈一指的生态系统，以创新的奖励结构和对社区价值创造的承诺而闻名。</p>
+                    
+                    <p><strong>使命：</strong></p>
+                    <ul>
+                        <li><strong>促进可持续增长：</strong> 实施能够为五种元素代币提供持续需求和通缩压力的代币经济学。</li>
+                        <li><strong>最大化社区回报：</strong> 将绝大部分交易费用（净费用的 85%）通过透明、有吸引力的奖池直接回馈社区。</li>
+                        <li><strong>提升可参与性和互动性：</strong> 利用简单易懂的可收集机制（五行元素），鼓励广泛参与和长期持有。</li>
+                    </ul>
+                    
+                    <h4>3. 社区与治理</h4>
+                    <p><strong>社区导向：</strong> ELEMENT 项目本质上由社区驱动。高比例的交易费用（净费用的 85%）回馈用户，体现了对参与和持有的坚定承诺。奖池的游戏化设计激励活跃互动与收集策略。</p>
+                    
+                    <p><strong>治理与演进：</strong> 项目初期参数（税率、奖励结构等）设定为确保启动阶段的稳定与快速增长。未来向 DAO 过渡：随着项目成熟与奖池规模扩大，治理结构将逐步转向去中心化自治组织（DAO）。代币经济学、税率、奖励机制等重大变更将由 ELEMENT 代币持有者通过社区投票决定，确保去中心化控制与适应性。</p>
+                    
+                    <p><strong>透明度：</strong> 官方抽奖网站 <a href="https://web3.guildengine.xyz/" target="_blank">https://web3.guildengine.xyz/</a> 提供奖池余额、抽奖结果、持仓情况的透明追踪。</p>
+                    
+                    <div class="highlight-box">
+                        <h4>结论</h4>
+                        <p>五福元素 (ELEMENT) 代表了 meme 币领域的一次重要探索，它超越单纯投机，构建了一个稳健的游戏化经济体。通过融入文化主题、透明的奖励体系以及独特的强制通缩机制，ELEMENT 为持有者持续创造价值。将绝大部分费用回馈社区的承诺，结合清晰的去中心化治理路径，使 ELEMENT 具备可持续的长期成功潜力，并孕育一个充满活力、深度参与的社区。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 添加项目白皮书图片 -->
+                    <div style="text-align: center; margin: 40px 0;">
+                        <img src="/static/element3.png" alt="项目白皮书" style="max-width: 100%; height: auto; border-radius: var(--border-radius); box-shadow: var(--box-shadow);">
+                    </div>
+
+    <!-- 发展路线图 -->
+    <section id="roadmap">
+        <div class="container">
+            <div class="section-title">
+                <h2><i class="fas fa-map-signs"></i> 发展路线图</h2>
+            </div>
+            
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <div class="phase">第一阶段</div>
+                        <h4>创世启动</h4>
+                        <p><strong>重点领域：</strong> 核心基础设施与代币分发</p>
+                        <ul>
+                            <li>在 flag.sh 平台上发行五个元素代币</li>
+                            <li>实施 5% 税收结构和自动化奖池分配</li>
+                            <li>启动每日和每周抽奖</li>
+                            <li>建立初始流动性</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <div class="phase">第二阶段</div>
+                        <h4>扩展与游戏化</h4>
+                        <p><strong>重点领域：</strong> 社区增长与效用整合</p>
+                        <ul>
+                            <li>确保初步战略合作伙伴关系</li>
+                            <li>开发增强的资格跟踪和仪表板功能</li>
+                            <li>启动专注于收集所有五种元素的社区活动</li>
+                            <li>扩展奖池机制和奖励选项</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <div class="phase">第三阶段</div>
+                        <h4>完全去中心化</h4>
+                        <p><strong>重点领域：</strong> DAO 实施与跨链扩展</p>
+                        <ul>
+                            <li>将治理过渡到 DAO</li>
+                            <li>探索潜在的跨链集成以扩大可访问性</li>
+                            <li>为核心彩票系统之外的元素代币开发更多实用功能</li>
+                            <li>建立完整的社区治理生态系统</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 重要链接 -->
+    <section id="links" style="background-color: #f0f4f8;">
+        <div class="container">
+            <div class="section-title">
+                <h2><i class="fas fa-link"></i> 重要链接</h2>
+            </div>
+            
+            <div class="rules-grid">
+                <div class="rule-card">
+                    <h4><i class="fas fa-globe"></i> 官方网站</h4>
+                    <p>官方抽奖网站提供奖池余额、抽奖结果、持仓情况的透明追踪。</p>
+                    <a href="https://web3.guildengine.xyz/" target="_blank" style="color: var(--primary-color); font-weight: 600;">https://web3.guildengine.xyz/</a>
+                </div>
+                
+                <div class="rule-card">
+                    <h4><i class="fas fa-random"></i> 随机分配算法</h4>
+                    <p>随机中奖方案算法确保抽奖过程的公平和透明。</p>
+                    <a href="https://x.com/web3catbuilder/status/2016831465624109099" target="_blank" style="color: var(--primary-color); font-weight: 600;">查看随机算法详情</a>
+                </div>
+                
+                <div class="rule-card">
+                    <h4><i class="fas fa-gift"></i> 奖金分发平台</h4>
+                    <p>奖金通过以下平台分发，确保安全可靠的支付流程。</p>
+                    <a href="https://bsc.ciaotool.io/" target="_blank" style="color: var(--primary-color); font-weight: 600;">https://bsc.ciaotool.io/</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-links">
+                    <h4>五福元素 (ELEMENT)</h4>
+                    <p>一个基于五行概念的高风险、极致通缩的加密生态系统。</p>
+                </div>
+                
+                <div class="footer-links">
+                    <h4>快速链接</h4>
+                    <ul>
+                        <li><a href="#overview">项目概述</a></li>
+                        <li><a href="#rules">项目规则</a></li>
+                        <li><a href="#tokenomics">代币经济学</a></li>
+                        <li><a href="#whitepaper">项目白皮书</a></li>
+                        <li><a href="#roadmap">发展路线图</a></li>
+                        <li><a href="#links">重要链接</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-links">
+                    <h4>重要提醒</h4>
+                    <p>加密货币投资具有高风险。在参与前，请确保您完全了解相关风险并做好充分研究。</p>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2023 五福元素 (ELEMENT) 项目。本规则在项目初步开始时，后续奖金池大了，需要修改进行DAO投票。</p>
+                <p style="margin-top: 10px;">DYOR? Nah, DYE (Do Your Elements). LFG. Collect. Win. Burn. Repeat.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // 语言切换功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const langButtons = document.querySelectorAll('.lang-btn:not(.disabled)');
+            const zhContents = document.querySelectorAll('.lang-content');
+            
+            // 默认显示中文内容
+            zhContents.forEach(content => {
+                if (content.id.includes('zh')) {
+                    content.classList.add('active');
+                } else {
+                    content.classList.remove('active');
+                }
+            });
+            
+            // 语言切换按钮点击事件
+            langButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const lang = this.getAttribute('data-lang');
+                    
+                    // 更新按钮状态
+                    langButtons.forEach(btn => btn.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // 切换内容显示
+                    zhContents.forEach(content => {
+                        content.classList.remove('active');
+                        if (content.id.includes(lang)) {
+                            content.classList.add('active');
+                        }
+                    });
+                });
+            });
+            
+            // 平滑滚动到锚点
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    const targetId = this.getAttribute('href');
+                    if (targetId === '#') return;
+                    
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        window.scrollTo({
+                            top: targetElement.offsetTop - 80,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

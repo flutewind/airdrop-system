@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{.Title}} - Guild Engine社区管理平台</title>
+    <link rel="icon" href="/static/logo.png" type="image/png">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/element-ui@2.15.14/lib/theme-chalk/index.css">
+    <link href="https://fonts.googleapis.com/css2?family=PingFang+SC:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'PingFang SC', 'Helvetica Neue', Helvetica, 'Microsoft YaHei', Arial, sans-serif;
+            background-color: #f5f7fa;
+            color: #303133;
+            line-height: 1.5;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* 深色页眉 */
+        .el-header {
+            background: linear-gradient(135deg, #304156 0%, #1f2d3d 100%);
+            color: #ffffff;
+            box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            position: relative;
+        }
+
+        .main-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            height: 64px;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo {
+            width: 40px;
+            height: 40px;
+            margin-right: 15px;
+            border-radius: 4px;
+        }
+
+        .site-title {
+            font-size: 22px;
+            font-weight: 600;
+            color: #ffffff;
+            letter-spacing: 1px;
+        }
+
+        .site-subtitle {
+            font-size: 14px;
+            color: #c0c4cc;
+            margin-left: 10px;
+            font-weight: 400;
+        }
+
+        /* 主内容区 */
+        .main-container {
+            flex: 1;
+            padding: 20px;
+            max-width: 1000px;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        .page-title {
+            font-size: 24px;
+            font-weight: 500;
+            color: #303133;
+            margin: 20px 0 30px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #e4e7ed;
+        }
+
+        /* 留言表单 */
+        .message-form-card {
+            background: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+
+        .form-title {
+            font-size: 18px;
+            font-weight: 500;
+            color: #303133;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 14px;
+            font-weight: 500;
+            color: #606266;
+            margin-bottom: 8px;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #dcdfe6;
+            border-radius: 4px;
+            font-size: 14px;
+            color: #303133;
+            transition: all 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #409eff;
+            box-shadow: 0 0 0 2px rgba(64, 158, 255, 0.1);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 12px 20px;
+            background: #409eff;
+            color: #ffffff;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .submit-btn:hover {
+            background: #66b1ff;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px 0 rgba(64, 158, 255, 0.3);
+        }
+
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+
+        /* 留言列表 */
+        .messages-list {
+            margin-top: 30px;
+        }
+
+        .section-title {
+            font-size: 20px;
+            font-weight: 500;
+            color: #303133;
+            margin-bottom: 20px;
+        }
+
+        .message-card {
+            background: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-bottom: 20px;
+            transition: all 0.3s;
+        }
+
+        .message-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.12);
+        }
+
+        .message-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .message-author {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .message-avatar {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #409eff, #66b1ff);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ffffff;
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        .message-name {
+            font-size: 16px;
+            font-weight: 500;
+            color: #303133;
+        }
+
+        .message-date {
+            font-size: 13px;
+            color: #909399;
+        }
+
+        .message-content {
+            font-size: 14px;
+            color: #606266;
+            line-height: 1.8;
+            word-wrap: break-word;
+        }
+
+        /* 加载状态 */
+        .loading-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 60px 20px;
+            background: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+        }
+
+        .loading-text {
+            margin-top: 20px;
+            color: #409eff;
+            font-size: 16px;
+        }
+
+        /* 空状态 */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            background: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+        }
+
+        .empty-icon {
+            font-size: 60px;
+            color: #c0c4cc;
+            margin-bottom: 20px;
+        }
+
+        .empty-text {
+            color: #606266;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+
+        .empty-subtext {
+            color: #909399;
+            font-size: 14px;
+        }
+
+        /* 分页 */
+        .pagination-container {
+            margin-top: 40px;
+            display: flex;
+            justify-content: center;
+        }
+
+        /* 深色页脚 */
+        .el-footer {
+            background: linear-gradient(135deg, #304156 0%, #1f2d3d 100%);
+            color: #c0c4cc;
+            padding: 40px 20px 20px;
+            margin-top: 60px;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .footer-bottom {
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 14px;
+            color: #a8abb2;
+        }
+
+        /* 响应式调整 */
+        @media (max-width: 768px) {
+            .main-header {
+                flex-direction: column;
+                height: auto;
+                padding: 15px;
+            }
+
+            .header-left {
+                margin-bottom: 15px;
+            }
+
+            .site-title {
+                font-size: 20px;
+            }
+
+            .main-container {
+                padding: 15px;
+            }
+
+            .message-form-card {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 深色页眉 -->
+    <header class="el-header">
+        <div class="main-header">
+            <div class="header-left">
+                <img src="/static/logo.png" alt="Guild Engine" class="logo">
+                <div>
+                    <span class="site-title">Guild Engine</span>
+                    <span class="site-subtitle">社区管理平台</span>
+                </div>
+            </div>
+            <div class="header-right">
+                <span style="color: #a8abb2; font-size: 14px;">Web3社区活动管理解决方案</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- 主内容区 -->
+    <main class="main-container">
+        <h1 class="page-title">留言板</h1>
+
+        <!-- 留言表单 -->
+        <div class="message-form-card">
+            <h2 class="form-title">发表留言</h2>
+            <form id="messageForm">
+                <div class="form-group">
+                    <label for="name">昵称 *</label>
+                    <input type="text" id="name" name="name" placeholder="请输入您的昵称" required maxlength="50">
+                </div>
+                <div class="form-group">
+                    <label for="email">邮箱（选填）</label>
+                    <input type="email" id="email" name="email" placeholder="请输入您的邮箱" maxlength="100">
+                </div>
+                <div class="form-group">
+                    <label for="content">留言内容 *</label>
+                    <textarea id="content" name="content" placeholder="请输入您的留言内容，最少5个字符" required minlength="5" maxlength="500"></textarea>
+                </div>
+                <button type="submit" class="submit-btn">提交留言</button>
+            </form>
+        </div>
+
+        <!-- 留言列表 -->
+        <div class="messages-list">
+            <h2 class="section-title">最新留言</h2>
+
+            <div id="message-loading" class="loading-container">
+                <i class="el-icon-loading" style="font-size: 40px; color: #409eff;"></i>
+                <div class="loading-text">正在加载留言...</div>
+            </div>
+
+            <div id="messages-container"></div>
+
+            <div id="pagination" class="pagination-container"></div>
+        </div>
+    </main>
+
+    <!-- 深色页脚 -->
+    <footer class="el-footer">
+        <div class="footer-content">
+            <div class="footer-bottom">
+                <div style="margin-bottom: 10px;">
+                    © 2026 Guild Engine 社区管理平台 版权所有
+                </div>
+                <div>
+                    遵循相关法律法规，倡导健康有序的区块链社区生态
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // 页面加载后获取留言列表
+        document.addEventListener('DOMContentLoaded', function() {
+            fetchMessages();
+        });
+
+        let currentPage = 1;
+        const pageSize = 10;
+
+        // 提交留言
+        document.getElementById('messageForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            const name = document.getElementById('name').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const content = document.getElementById('content').value.trim();
+
+            // 基本验证
+            if (!name) {
+                alert('请输入昵称');
+                return;
+            }
+            if (content.length < 5) {
+                alert('留言内容至少需要5个字符');
+                return;
+            }
+
+            try {
+                const response = await fetch('/api/messages', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ name, email, content }),
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    alert('留言成功！审核后将显示在留言板。');
+                    // 清空表单
+                    document.getElementById('messageForm').reset();
+                    // 刷新留言列表
+                    currentPage = 1;
+                    fetchMessages();
+                } else {
+                    alert('留言失败：' + (data.error || '未知错误'));
+                }
+            } catch (error) {
+                alert('网络错误，请稍后重试');
+                console.error('提交留言失败:', error);
+            }
+        });
+
+        // 获取留言列表
+        async function fetchMessages(page = 1) {
+            const loadingDiv = document.getElementById('message-loading');
+            const containerDiv = document.getElementById('messages-container');
+            const paginationDiv = document.getElementById('pagination');
+
+            // 显示加载状态
+            loadingDiv.style.display = 'flex';
+            containerDiv.innerHTML = '';
+            if (paginationDiv) {
+                paginationDiv.innerHTML = '';
+            }
+
+            try {
+                const response = await fetch(`/api/messages?page=${page}&page_size=${pageSize}`);
+                const data = await response.json();
+
+                // 隐藏加载状态
+                loadingDiv.style.display = 'none';
+
+                if (data.messages && data.messages.length > 0) {
+                    // 渲染留言列表
+                    renderMessages(data.messages);
+                    // 渲染分页
+                    renderPagination(data.page, data.total_pages);
+                } else {
+                    // 显示空状态
+                    containerDiv.innerHTML = `
+                        <div class="empty-state">
+                            <i class="el-icon-s-comment empty-icon"></i>
+                            <div class="empty-text">暂无留言</div>
+                            <div class="empty-subtext">快来发表第一条留言吧！</div>
+                        </div>`;
+                }
+            } catch (error) {
+                loadingDiv.style.display = 'none';
+                containerDiv.innerHTML = `
+                    <div class="empty-state">
+                        <i class="el-icon-error empty-icon"></i>
+                        <div class="empty-text">加载留言失败</div>
+                        <div class="empty-subtext">请刷新页面重试</div>
+                    </div>`;
+                console.error('加载留言失败:', error);
+            }
+        }
+
+        // 渲染留言列表
+        function renderMessages(messages) {
+            const containerDiv = document.getElementById('messages-container');
+
+            messages.forEach(message => {
+                const card = document.createElement('div');
+                card.className = 'message-card';
+
+                // 格式化时间
+                const createdDate = new Date(message.created_at);
+                const now = new Date();
+                const diffHours = Math.floor((now - createdDate) / (1000 * 60 * 60));
+                const diffDays = Math.floor(diffHours / 24);
+
+                let timeText;
+                if (diffHours < 1) {
+                    timeText = '刚刚';
+                } else if (diffHours < 24) {
+                    timeText = `${diffHours}小时前`;
+                } else if (diffDays < 7) {
+                    timeText = `${diffDays}天前`;
+                } else {
+                    timeText = createdDate.toLocaleDateString('zh-CN');
+                }
+
+                // 获取昵称首字母作为头像
+                const avatarChar = message.name.charAt(0).toUpperCase();
+
+                card.innerHTML = `
+                    <div class="message-header">
+                        <div class="message-author">
+                            <div class="message-avatar">${avatarChar}</div>
+                            <div class="message-name">${escapeHtml(message.name)}</div>
+                        </div>
+                        <div class="message-date">${timeText}</div>
+                    </div>
+                    <div class="message-content">${escapeHtml(message.content)}</div>
+                `;
+
+                containerDiv.appendChild(card);
+            });
+        }
+
+        // 渲染分页
+        function renderPagination(currentPage, totalPages) {
+            let paginationDiv = document.getElementById('pagination');
+            if (!paginationDiv) {
+                paginationDiv = document.createElement('div');
+                paginationDiv.id = 'pagination';
+                paginationDiv.className = 'pagination-container';
+                document.querySelector('.messages-list').appendChild(paginationDiv);
+            }
+
+            paginationDiv.innerHTML = '';
+
+            if (totalPages <= 1) return;
+
+            const pagination = document.createElement('div');
+            pagination.className = 'el-pagination';
+            pagination.style.justifyContent = 'center';
+
+            // 上一页
+            const prevButton = document.createElement('button');
+            prevButton.className = `btn-prev ${currentPage === 1 ? 'disabled' : ''}`;
+            prevButton.innerHTML = '<i class="el-icon-arrow-left"></i>';
+            prevButton.disabled = currentPage === 1;
+            prevButton.addEventListener('click', () => {
+                if (currentPage > 1) fetchMessages(currentPage - 1);
+            });
+
+            // 下一页
+            const nextButton = document.createElement('button');
+            nextButton.className = `btn-next ${currentPage === totalPages ? 'disabled' : ''}`;
+            nextButton.innerHTML = '<i class="el-icon-arrow-right"></i>';
+            nextButton.disabled = currentPage === totalPages;
+            nextButton.addEventListener('click', () => {
+                if (currentPage < totalPages) fetchMessages(currentPage + 1);
+            });
+
+            pagination.appendChild(prevButton);
+            pagination.appendChild(nextButton);
+
+            const style = document.createElement('style');
+            style.textContent = `
+                .el-pagination {
+                    display: inline-flex;
+                    align-items: center;
+                    gap: 10px;
+                }
+                .el-pagination button {
+                    padding: 8px 16px;
+                    background: #ffffff;
+                    border: 1px solid #dcdfe6;
+                    border-radius: 4px;
+                    color: #606266;
+                    cursor: pointer;
+                    font-size: 14px;
+                }
+                .el-pagination button:hover:not(.disabled) {
+                    color: #409eff;
+                    border-color: #c6e2ff;
+                    background-color: #ecf5ff;
+                }
+                .el-pagination button.disabled {
+                    cursor: not-allowed;
+                    color: #c0c4cc;
+                }
+            `;
+            document.head.appendChild(style);
+
+            paginationDiv.appendChild(pagination);
+        }
+
+        // HTML转义函数
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+    </script>
+</body>
+</html>
